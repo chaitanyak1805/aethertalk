@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherTalk Workspace | Chat</title>
+    <!-- Outfit & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themes.css') }}">
+</head>
+
+<body class="theme-dark chat-layout">
+    <!-- Main Dashboard Wrap -->
+    <div class="app-workspace">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar collapsed" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-wand-magic-sparkles brand-icon"></i>
+                    <span class="brand-name">AetherTalk</span>
+                </div>
+                <button class="sidebar-toggle-btn mobile-only" id="sidebar-close-btn" aria-label="Close sidebar">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <!-- New conversation trigger -->
+            <button class="new-chat-btn" id="new-chat-btn">
+                <i class="fa-solid fa-plus"></i> New Chat
+            </button>
+
+            <!-- Conversations History Wrapper loaded dynamically -->
+            <div class="history-container" id="history-container">
+                <div class="history-loading">
+                    <div class="history-spinner spinner"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar Footer Settings and User Context -->
+            <div class="sidebar-footer">
+                <div class="theme-control">
+                    <label for="theme-select"><i class="fa-solid fa-palette"></i> Theme:</label>
+                    <select id="theme-select" class="theme-select-dropdown">
+                        <option value="theme-dark">Dark</option>
+                        <option value="theme-light">Light</option>
+                        <option value="theme-ocean">Ocean</option>
+                        <option value="theme-purple">Purple</option>
+                    </select>
+                </div>
+
+                <div class="user-profile-menu">
+                    <div class="user-details">
+                        <div class="user-avatar" id="user-avatar">
+                            {{ user_name[0]|upper if user_name else user_email[0]|upper }}
+                        </div>
+                        <div class="user-info">
+                            <span class="user-title">{{ user_name or 'Chat User' }}</span>
+                            <span class="user-subtitle">{{ user_email }}</span>
+                        </div>
+                    </div>
+                    <button class="logout-btn" id="logout-btn" title="Sign Out" aria-label="Sign Out">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN PANEL -->
+        <main class="chat-main" id="chat-main">
+            <!-- HEADER -->
+            <header class="chat-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle-btn" id="sidebar-open-btn" aria-label="Open sidebar">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h2 class="current-chat-title" id="chat-title">New Conversation</h2>
+                </div>
+
+                <div class="header-right">
+                    <!-- Model select switch -->
+                    <div class="model-picker">
+                        <label for="model-select"><i class="fa-solid fa-robot"></i> Model:</label>
+                        <select id="model-select" class="model-select-dropdown">
+                            <option value="openai/gpt-oss-120b">openai/gpt-oss-120b</option>
+                            <option value="llama-3.1-8b-instant">Llama 3.1 8B (Fast)</option>
+                            <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MESSAGES CONTAINER -->
+            <div class="chat-body" id="chat-body">
+                <!-- Empty state visual card -->
+                <div class="chat-empty-state" id="chat-empty-state">
+                    <div class="empty-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3>Hello! How can I help you today?</h3>
+                    <p>Start a new discussion or select from your recent history. Talk in natural text or translate
+                        answers with text-to-speech voiceovers.</p>
+
+                    <div class="starter-prompts">
+                        <button class="prompt-starter-card"
+                            data-prompt="Explain neural networks with a simple coffee shop analogy">
+                            <i class="fa-solid fa-brain starter-icon"></i>
+                            <span>Explain neural networks...</span>
+                        </button>
+                        <button class="prompt-starter-card"
+                            data-prompt="Write a Python script to scrape weather info using BeautifulSoup">
+                            <i class="fa-solid fa-code starter-icon"></i>
+                            <span>Scrape weather with Python...</span>
+                        </button>
+                        <button class="prompt-starter-card"
+                            data-prompt="Give me 5 creative name ideas for a coffee shop and bubble tea brand">
+                            <i class="fa-solid fa-lightbulb starter-icon"></i>
+                            <span>Brainstorm business names...</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHAT INPUT CONTROLLERS -->
+            <footer class="chat-footer">
+                <div class="chat-input-container">
+                    <form id="chat-form" class="chat-input-form">
+                        <!-- Message textarea, autosizes -->
+                        <textarea id="message-input" rows="1" placeholder="Type a message, Shift + Enter for newline..."
+                            required></textarea>
+
+                        <div class="chat-input-actions">
+                            <!-- Voice Input mic button -->
+                            <button type="button" class="action-btn mic-btn" id="voice-input-btn" title="Voice Input"
+                                aria-label="Voice Input">
+                                <i class="fa-solid fa-microphone"></i>
+                            </button>
+
+                            <!-- Send key -->
+                            <button type="submit" class="send-btn" id="send-button" title="Send message"
+                                aria-label="Send message">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="footer-meta-tip">
+                    Conversations are secure and isolated. Select individual messages to convert to audio voiceovers.
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Voice Control Floating Overlay / State Banner (Idle, Listening, Processing, Speaking, Error) -->
+    <div class="voice-status-overlay hidden" id="voice-overlay">
+        <div class="voice-overlay-content">
+            <div class="wave-visualizer" id="wave-visualizer">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <h4 class="voice-state-title" id="voice-status-title">Listening...</h4>
+            <p class="voice-state-subtitle" id="voice-status-sub">I'm listening for your voice commands.</p>
+            <button class="btn btn-outline voice-overlay-close" id="voice-overlay-stop"><i
+                    class="fa-solid fa-circle-stop"></i> Stop</button>
+        </div>
+    </div>
+
+    <!-- Inject public session properties for Javascript bindings -->
+    <script>
+        window.USER_ID = "{{ session.get('user_id') or '' }}";
+    </script>
+
+    <!-- Load JS assets -->
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/conversation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/voice.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+
+</html>

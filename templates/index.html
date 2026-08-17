@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot Platform | Express Yourself</title>
+    <!-- Outfit & FontAwesome & CSS links -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themes.css') }}">
+</head>
+<body class="theme-dark landing-page">
+    <header class="landing-header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fa-solid fa-wand-magic-sparkles brand-icon"></i>
+                <span class="brand-name">AetherTalk</span>
+            </div>
+            <nav class="nav-links">
+                {% if logged_in %}
+                    <a href="/chat" class="btn btn-primary">Go to Chat <i class="fa-solid fa-arrow-right"></i></a>
+                {% else %}
+                    <a href="/login" class="nav-link">Log In</a>
+                    <a href="/signup" class="btn btn-primary">Get Started</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="landing-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="badge">Next Generation Conversational AI</span>
+            <h1>Supercharge Conversations with AetherTalk</h1>
+            <p class="hero-lead">An intuitive chatbot workspace carrying contextual memory, responsive Voice Synthesizers, custom aesthetics, and top-grade Supabase security shield.</p>
+            <div class="hero-cta">
+                {% if logged_in %}
+                    <a href="/chat" class="btn btn-callout btn-huge">Launch Chat Workspace <i class="fa-solid fa-rocket"></i></a>
+                {% else %}
+                    <a href="/signup" class="btn btn-callout btn-huge">Create Free Account <i class="fa-solid fa-user-plus"></i></a>
+                    <a href="/login" class="btn btn-outline btn-huge">Log In Credentials <i class="fa-solid fa-sign-in-alt"></i></a>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <section class="landing-features">
+        <div class="section-container">
+            <h2 class="section-title">Engineered For Fluid Operations</h2>
+            <p class="section-subtitle">Combining cutting-edge services for an uncompromised experience.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3>Groq Inference Engine</h3>
+                    <p>Ultra-low latency inference powered by Llama 3.3. Get responses instantly with rich conversational details.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+                    <h3>ElevenLabs Voice Synth</h3>
+                    <p>Listen to your chatbot. ElevenLabs TTS processes response playback with rich emotion and realism.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Supabase Shield</h3>
+                    <p>Row-Level Security (RLS) ensures only you access your data. Secure signups, login, and Google OAuth integration.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-palette"></i></div>
+                    <h3>Adaptive Themes</h3>
+                    <p>Switch between Light, Dark, Ocean, and Purple modes seamlessly without reloading the interface.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="landing-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 AetherTalk AI. Built with Python, Flask, Supabase, and CSS3.</p>
+        </div>
+    </footer>
+</body>
+</html>

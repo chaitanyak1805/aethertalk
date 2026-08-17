@@ -1,0 +1,61 @@
+/* CSS Theme tokens */
+
+/* 1. DARK THEME (Default) */
+.theme-dark {
+    --background: #090d16;
+    --surface: #131a26;
+    --surface-hover: #1e2638;
+    --text: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --border: #1f293d;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --message-user: #1d283c;
+    --message-ai: #141d2e;
+    --input-bg: #0d121f;
+}
+
+/* 2. LIGHT THEME */
+.theme-light {
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --surface-hover: #f1f5f9;
+    --text: #0f172a;
+    --text-secondary: #64748b;
+    --border: #e2e8f0;
+    --primary: #4f46e5;
+    --primary-hover: #3730a3;
+    --message-user: #e0e7ff;
+    --message-ai: #f1f5f9;
+    --input-bg: #ffffff;
+}
+
+/* 3. OCEAN THEME */
+.theme-ocean {
+    --background: #021a24;
+    --surface: #052a3a;
+    --surface-hover: #073b51;
+    --text: #e2f1f6;
+    --text-secondary: #7faebf;
+    --border: #0a4661;
+    --primary: #0ea5e9;
+    --primary-hover: #0284c7;
+    --message-user: #0b3d54;
+    --message-ai: #03202d;
+    --input-bg: #01121b;
+}
+
+/* 4. PURPLE THEME */
+.theme-purple {
+    --background: #110729;
+    --surface: #1e0f45;
+    --surface-hover: #2d1866;
+    --text: #f1ecf9;
+    --text-secondary: #ae9ecb;
+    --border: #321c6e;
+    --primary: #a855f7;
+    --primary-hover: #9333ea;
+    --message-user: #351c70;
+    --message-ai: #1d0e3d;
+    --input-bg: #150933;
+}

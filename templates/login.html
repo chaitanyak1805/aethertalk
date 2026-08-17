@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | AetherTalk AI</title>
+    <!-- Outfit & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themes.css') }}">
+</head>
+
+<body class="theme-dark auth-page">
+    <div class="auth-card-container">
+        <div class="auth-logo">
+            <a href="/"><i class="fa-solid fa-wand-magic-sparkles"></i> AetherTalk</a>
+        </div>
+
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Log in to interface with your workspace</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category if category != 'error' else 'danger' }}">
+                <i class="fa-solid fa-circle-info"></i> {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <div id="alert-container"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" id="email" placeholder="you@domain.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-row">
+                        <label for="password">Password</label>
+                        <a href="/forgot-password" class="forgot-link">Forgot password?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <button type="button" class="toggle-password" tabindex="-1"><i
+                                class="fa-regular fa-eye"></i></button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="btn-submit">
+                    <span>Log In</span>
+                    <div class="btn-spinner hidden"></div>
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>or continue with</span>
+            </div>
+
+            <button type="button" class="btn btn-outline btn-block btn-google" id="btn-google">
+                <i class="fa-brands fa-google google-icon"></i> Continue with Google
+            </button>
+
+            <p class="auth-footer">
+                Don't have an account? <a href="/signup">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Inject public Supabase credentials for client-side Google OAuth trigger helper -->
+    <script>
+        window.SUPABASE_URL = "{{ env_supabase_url or '' }}";
+        window.SUPABASE_KEY = "{{ env_supabase_key or '' }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+# Python virtual environment
+venv/
+.venv/
+ENV/
+env/
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Environment variables (contains secrets!)
+.env
+
+# Python caching
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Flask session cache/instance folder
+instance/
+
+# Local database or temporary files
+*.db
+*.log
