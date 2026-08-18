@@ -58,4 +58,4 @@ def server_error(e):
 if __name__ == "__main__":
     debug_mode = os.getenv("FLASK_DEBUG", "True").lower() == "true"
     # Bound to standard localhost port 5000
-    app.run(host="127.0.0.1", port=5000, debug=debug_mode)
+    app.run(host="0.0.0.0", port=5000)

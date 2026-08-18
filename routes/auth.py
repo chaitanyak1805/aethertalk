@@ -16,13 +16,15 @@ def login_required(f):
 
 @auth_bp.route("/login", methods=["GET"])
 def login_view():
-    if session.get("access_token"):
-        return redirect(url_for("chat_view")) # Custom chatbot home
+    if session.get("access_token") and session.get("user_id"):
+        return redirect(url_for("chat_view"))
+    # Clear any broken/partial session to stop redirect loops
+    session.clear()
     return render_template("login.html")
 
 @auth_bp.route("/signup", methods=["GET"])
 def signup_view():
-    if session.get("access_token"):
+    if session.get("access_token") and session.get("user_id"):
         return redirect(url_for("chat_view"))
     return render_template("signup.html")
 
@@ -144,9 +146,8 @@ def auth_session_sync():
         return jsonify({"success": False, "error": "Access token not provided"}), 400
         
     try:
-        # Validate token against Supabase using public API
-        user_client = supabase_service.get_user_client(access_token)
-        res = user_client.auth.get_user()
+        # Validate token directly via admin client using jwt param
+        res = supabase_service.admin_client.auth.get_user(jwt=access_token)
         
         if not res or not res.user:
             return jsonify({"success": False, "error": "Invalid or expired token — user not found"}), 401
