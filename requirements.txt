@@ -4,3 +4,4 @@ supabase==2.4.3
 groq==0.9.0
 elevenlabs==1.5.0
 requests==2.31.0
+gunicorn==22.0.0
