@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, url_for, session
+from flask import Flask, render_template, redirect, url_for, session, jsonify
 from dotenv import load_dotenv
 
 # Load all environment variables
@@ -45,6 +45,13 @@ def inject_user():
         "env_supabase_url": os.getenv("SUPABASE_URL", ""),
         "env_supabase_key": os.getenv("SUPABASE_KEY", "")
     }
+
+# --- NEW HEALTH ENDPOINT ---
+@app.route("/health")
+def health_check():
+    """Health check endpoint for Render to keep the app awake."""
+    return jsonify({"status": "ok"}), 200
+# ---------------------------
 
 # General Error Handlers
 @app.errorhandler(404)
